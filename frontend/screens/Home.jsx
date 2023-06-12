@@ -1,27 +1,63 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState } from 'react'
-import {defaultStyle, colors} from "../styles/styles"
-import Header from '../components/Header'
-import { Avatar, Button } from 'react-native-paper'
+
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, {  useState } from "react";
+import { defaultStyle, colors } from "../styles/styles";
+import Header from "../components/Header";
+import { Avatar, Button } from "react-native-paper";
+import SearchModal from "../components/SearchModal";
+import ProductCard from "../components/ProductCard";
+import { useNavigation } from "@react-navigation/native";
+
+const categories = [
+  { category: "Machines", _id: "ajdlkna"},
+  { category: "Dumbbells", _id: "ajdldkna"},
+  { category: "Clothes", _id: "ajdslknfa"},
+  { category: "Clothes", _id: "ajdhlknfa"},
+  ]
+  
+  const products = [
+    {
+      price: 3224,
+      stock: 23,
+      name: "Shembull",
+      _id: "adfsafasafs",
+      images: [
+        {
+          url: "https://www.hussle.com/blog/wp-content/uploads/2020/12/Gym-structure-1080x675.png",
+        },
+      ],
+    },
+  ]
 
 const Home = () => {
 
-const categories = [
-{ category: "Machines", _id: "ajdlkna"},
-{ category: "Dumbbells", _id: "ajdldkna"},
-{ category: "Clothes", _id: "ajdslknfa"},
-{ category: "Clothes", _id: "ajdhlknfa"},
-]
 
 const [category, setCategory] = useState("")
+const [activeSearch, setActiveSearch] = useState(false)
+const [searchQuery, setSearchQuery] = useState("")
+
+const navigate = useNavigation();
 
 const categoryButtonHandler = (id) => {
   setCategory(id)
 }
 
-
+const addToCardHandler = (id) => {
+  console.log("Add to Cart", id)
+}
  
   return (
+<>
+   {
+    activeSearch && (
+      <SearchModal 
+      searchQuery = {searchQuery} 
+      setSearchQuery = {setSearchQuery}
+      setActiveSearch = {setActiveSearch} 
+      products = {products}
+      />
+    )
+   }
     <View style =
     {defaultStyle}>
     <Header/>
@@ -46,16 +82,17 @@ const categoryButtonHandler = (id) => {
     </View>
 
         {/** Search Bar */}
-          <View>
-
-            <TouchableOpacity>
-              <Avatar.Icon 
-              icon={"magnify"} 
-              size={50}
-              color={"gray"} 
-              style={{backgroundColor: colors.color2, elevation: 12 }} />
+        <View>
+            <TouchableOpacity onPress={() => setActiveSearch((prev) => !prev)}>
+              <Avatar.Icon
+                icon={"magnify"}
+                size={50}
+                color={"gray"}
+                style={{ backgroundColor: colors.color2, elevation: 12 }}
+              />
             </TouchableOpacity>
           </View>
+
         </View>
 
 
@@ -105,7 +142,27 @@ const categoryButtonHandler = (id) => {
         </View>
 
         {/**Products */}
+
+        <View style={{ flex: 1 }}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {products.map((item, index) => (
+              <ProductCard
+                stock={item.stock}
+                name={item.name}
+                price={item.price}
+                image={item.images[0]?.url}
+                addToCardHandler={addToCardHandler}
+                id={item._id}
+                key={item._id}
+                i={index}
+                navigate={navigate}
+               
+              />
+            ))}
+          </ScrollView>
+        </View>
       </View>
+      </>
   )
 }
 
