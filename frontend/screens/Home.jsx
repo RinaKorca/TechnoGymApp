@@ -94,7 +94,7 @@ const addToCardHandler = (id) => {
 
     </View>
 
-        {/** Search Bar */}
+
         <View>
             <TouchableOpacity onPress={() => setActiveSearch((prev) => !prev)}>
               <Avatar.Icon
@@ -109,7 +109,7 @@ const addToCardHandler = (id) => {
         </View>
 
 
-        {/**Categories */}
+
         <View
           style={{
             flexDirection: "row",
@@ -154,7 +154,6 @@ const addToCardHandler = (id) => {
           </ScrollView>
         </View>
 
-        {/**Products */}
 
         <View style={{ flex: 1 }}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
