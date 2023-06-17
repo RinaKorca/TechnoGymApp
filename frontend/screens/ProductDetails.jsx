@@ -11,7 +11,6 @@ import Header from "../components/Header"
 import Carousel from "react-native-snap-carousel"
 import { Avatar, Button } from "react-native-paper"
 import { Toast } from "react-native-toast-message/lib/src/Toast"
-import { useDispatch } from "react-redux";
 import { useIsFocused } from "@react-navigation/native"
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
@@ -37,7 +36,7 @@ const description = "Askdjsdo"
 
 const isCarousel = useRef(null)
 const [quantity, setQuantity] = useState(1)
-const dispatch = useDispatch();
+
 const isFocused = useIsFocused();
 
 const incrementQty = () => {
@@ -60,26 +59,13 @@ const incrementQty = () => {
         type: "error",
         text1: "Out Of Stock",
       });
-    dispatch({
-      type: "addToCart",
-      payload: {
-        product: params.id,
-        name,
-        price,
-        image: images[0]?.url,
-        stock,
-        quantity,
-      },
-    });
+    
     Toast.show({
       type: "success",
       text1: "Added To Cart",
     })
   }
 
-  useEffect(() => {
-    dispatch(getProductDetails(params.id));
-  }, [dispatch, params.id, isFocused])
 
 
 const images = [{
