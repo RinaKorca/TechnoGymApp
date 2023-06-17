@@ -5,13 +5,14 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity, } from 'react-native'
-    import React, {  useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { colors, defaultStyle } from "../styles/styles"
 import Header from "../components/Header"
 import Carousel from "react-native-snap-carousel"
-import { Avatar } from "react-native-paper"
-
-
+import { Avatar, Button } from "react-native-paper"
+import { Toast } from "react-native-toast-message/lib/src/Toast"
+import { useDispatch } from "react-redux";
+import { useIsFocused } from "@react-navigation/native"
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 const ITEM_WIDTH = SLIDER_WIDTH
@@ -36,7 +37,8 @@ const description = "Askdjsdo"
 
 const isCarousel = useRef(null)
 const [quantity, setQuantity] = useState(1)
-
+const dispatch = useDispatch();
+const isFocused = useIsFocused();
 
 const incrementQty = () => {
     if (stock <= quantity)
@@ -45,11 +47,39 @@ const incrementQty = () => {
         text1: "Maximum Value Added",
       });
     setQuantity((prev) => prev + 1);
-  };
+  }
+
   const decrementQty = () => {
     if (quantity <= 1) return;
     setQuantity((prev) => prev - 1);
-  };
+  }
+
+  const addToCardHandler = () => {
+    if (stock === 0)
+      return Toast.show({
+        type: "error",
+        text1: "Out Of Stock",
+      });
+    dispatch({
+      type: "addToCart",
+      payload: {
+        product: params.id,
+        name,
+        price,
+        image: images[0]?.url,
+        stock,
+        quantity,
+      },
+    });
+    Toast.show({
+      type: "success",
+      text1: "Added To Cart",
+    })
+  }
+
+  useEffect(() => {
+    dispatch(getProductDetails(params.id));
+  }, [dispatch, params.id, isFocused])
 
 
 const images = [{
@@ -160,6 +190,12 @@ const images = [{
 
              </View>
           </View>
+
+          <TouchableOpacity activeOpacity={0.9} onPress={addToCardHandler}>
+          <Button icon={"cart"} style={style.btn} textColor={colors.color2}>
+            Add To Cart
+          </Button>
+        </TouchableOpacity>
         </View>
     </View>
   )
