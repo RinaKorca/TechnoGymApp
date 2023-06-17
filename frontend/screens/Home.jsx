@@ -7,6 +7,7 @@ import { Avatar, Button } from "react-native-paper";
 import SearchModal from "../components/SearchModal";
 import ProductCard from "../components/ProductCard";
 import { useNavigation } from "@react-navigation/native";
+import Footer from "../components/Footer";
 
 const categories = [
   { category: "Machines", _id: "ajdlkna"},
@@ -20,6 +21,18 @@ const categories = [
       price: 3224,
       stock: 23,
       name: "Shembull",
+      _id: "adfsafasafs",
+      images: [
+        {
+          url: "https://www.hussle.com/blog/wp-content/uploads/2020/12/Gym-structure-1080x675.png",
+        },
+      ],
+    },
+
+    {
+      price: 3223,
+      stock: 23,
+      name: "Pesha",
       _id: "adfsafasafs",
       images: [
         {
@@ -162,6 +175,9 @@ const addToCardHandler = (id) => {
           </ScrollView>
         </View>
       </View>
+
+      <Footer activeRoute={"home"} />
+
       </>
   )
 }
