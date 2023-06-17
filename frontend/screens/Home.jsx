@@ -1,13 +1,14 @@
 
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React, {  useState } from "react";
-import { defaultStyle, colors } from "../styles/styles";
-import Header from "../components/Header";
-import { Avatar, Button } from "react-native-paper";
-import SearchModal from "../components/SearchModal";
-import ProductCard from "../components/ProductCard";
-import { useNavigation } from "@react-navigation/native";
-import Footer from "../components/Footer";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native"
+import React, {  useState } from "react"
+import { defaultStyle, colors } from "../styles/styles"
+import Header from "../components/Header"
+import { Avatar, Button } from "react-native-paper"
+import SearchModal from "../components/SearchModal"
+import ProductCard from "../components/ProductCard"
+import { useNavigation } from "@react-navigation/native"
+import Footer from "../components/Footer"
+import Heading from "../components/Heading"
 
 const categories = [
   { category: "Machines", _id: "ajdlkna"},
@@ -75,25 +76,17 @@ const addToCardHandler = (id) => {
     {defaultStyle}>
     <Header/>
 
-    {/**Headin Row */}
+
 
     <View 
       style={{
-        paddingTop: 70,
+        paddingTop: 120,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
       }}>
 
-         {/**Heading */}
-
-    <View>
-
-            <Text style={{fontSize: 25}}>Our</Text>
-            <Text style={{fontSize: 25, fontWeight: "900"}}>Products</Text>
-
-    </View>
-
+      <Heading text1="Our" text2="Products" />
 
         <View>
             <TouchableOpacity onPress={() => setActiveSearch((prev) => !prev)}>
