@@ -38,8 +38,8 @@ const cartItems = [{
 
 const Cart = () => {
 
-    const decrementHandler = () => {}
-    const incrementHandler = () => {}
+    const decrementHandler = (id, qty, stock) => {}
+    const incrementHandler = (id, qty) => {}
 
 
   return (
@@ -56,7 +56,7 @@ const Cart = () => {
       <Heading
         text1="Shopping"
         text2="Cart"
-        containerStyle={{ paddingTop: 70, marginLeft: 35 }}
+        containerStyle={{ paddingTop: 110, marginLeft: 35 }}
       />
 
       <View

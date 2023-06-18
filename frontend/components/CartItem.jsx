@@ -36,13 +36,7 @@ const CartItem = ({
           source={{
             uri: imgSrc,
           }}
-          style={{
-            width: 100,
-            height: "100%",
-            resizeMode: "contain",
-            top: "-20%",
-            left: "20%",
-          }}
+          style={styles.img}
         />
 
       </View>
@@ -72,12 +66,61 @@ const CartItem = ({
         </Text>
       </View>
 
-      <View>
-        
+      <View style={styles.qtyContainer}
+      >
+         <TouchableOpacity
+          onPress={() => decrementHandler(id, qty)}>
+          <Avatar.Icon icon={"minus"} {...iconOptions}/>
+          </TouchableOpacity>
+
+          <Text
+            style={{
+                backgroundColor: colors.color4,
+                height: 25,
+                width: 25,
+                textAlignVertical: "center",
+                borderWidth: 1,
+                textAlign: "center",
+                borderRadius: 5,
+                borderColor: colors.color5,
+            }}
+          >{qty}</Text>
+
+<TouchableOpacity
+          onPress={() => incrementHandler(id, qty, stock)}>
+          <Avatar.Icon icon={"plus"} {...iconOptions}/>
+          </TouchableOpacity>
+
       </View>
       
     </View>
   )
 }
-
+const styles = StyleSheet.create({
+    img: {
+        width: 100,
+        height: "100%",
+        resizeMode: "contain",
+        top: "-10%",
+        left: "30%",
+      },
+    qtyText: {
+      backgroundColor: colors.color4,
+      height: 25,
+      width: 25,
+      textAlignVertical: "center",
+      textAlign: "center",
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: colors.color5,
+    },
+    qtyContainer: {
+      alignItems: "center",
+      width: "20%",
+      height: 80,
+      justifyContent: "space-between",
+      alignSelf: "center",
+    },
+  })
+   
 export default CartItem
