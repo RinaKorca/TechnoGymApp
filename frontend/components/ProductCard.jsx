@@ -21,7 +21,10 @@ const ProductCard = ({
     >
          <View
         style={{
-          elevation: 15,
+          shadowColor: '#000', 
+          shadowOffset: { width: 0, height: 2 }, 
+          shadowOpacity: 0.3, 
+          shadowRadius: 4,
           width: 250,
           alignItems: "center",
           justifyContent: "space-between",
@@ -41,7 +44,6 @@ const ProductCard = ({
             height: 200,
             resizeMode: "contain",
             position: "absolute",
-            left: 50,
             top: 105,
           }}
         />

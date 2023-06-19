@@ -94,7 +94,11 @@ const addToCardHandler = (id) => {
                 icon={"magnify"}
                 size={50}
                 color={"gray"}
-                style={{ backgroundColor: colors.color2, elevation: 12 }}
+                style={{ backgroundColor: colors.color2,  
+                shadowColor: '#000', 
+                shadowOffset: { width: 0, height: 2 }, 
+                shadowOpacity: 0.3, 
+                shadowRadius: 4, }}
               />
             </TouchableOpacity>
           </View>

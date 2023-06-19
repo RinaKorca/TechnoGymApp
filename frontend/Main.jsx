@@ -6,6 +6,7 @@ import Home from './screens/home'
 import ProductDetails from "./screens/ProductDetails"
 import { Toast } from "react-native-toast-message/lib/src/Toast"
 import Cart from './screens/Cart'
+import ConfirmOrder from './screens/ConfirmOrder'
 
 const Stack = createNativeStackNavigator()
 
@@ -24,6 +25,8 @@ screenOptions={{
 <Stack.Screen name="home" component={Home}/>
 <Stack.Screen name="productdetails" component={ProductDetails} />
 <Stack.Screen name="cart" component={Cart} />
+<Stack.Screen name="confirmorder" component={ConfirmOrder} />
+
 
 
 

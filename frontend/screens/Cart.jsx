@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 
-const cartItems = [{
+export const cartItems = [{
     name: "Clothes",
     image: "https://www.hussle.com/blog/wp-content/uploads/2020/12/Gym-structure-1080x675.png",
     product: "afdsfsafsarg",
@@ -37,7 +37,7 @@ const cartItems = [{
 ]
 
 const Cart = () => {
-
+    const navigate = useNavigation()
     const decrementHandler = (id, qty, stock) => {}
     const incrementHandler = (id, qty) => {}
 
@@ -97,7 +97,9 @@ const Cart = () => {
         <Text>20€</Text>
       </View>
 
-      <TouchableOpacity >
+      <TouchableOpacity   onPress={
+          cartItems.length > 0 ? () => navigate.navigate("confirmorder") : null
+        }>
         <Button
           style={{
             backgroundColor: colors.color3,
