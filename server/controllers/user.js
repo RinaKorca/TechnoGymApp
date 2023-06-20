@@ -1,6 +1,7 @@
 import { asyncError } from "../middlewares/error.js"
 import { User } from "../models/user.js"
 import ErrorHandler from "../utils/error.js"
+import { sendToken } from "../utils/features.js"
   
  export const login = asyncError(async (req,res,next)=>{
 
@@ -12,37 +13,38 @@ import ErrorHandler from "../utils/error.js"
     const isMatched = await user.comparePassword(password)
 
     if (!user) {
-        return next(new ErrorHandler("Incorrect Email or Password", 400));
+        return next(new ErrorHandler("Incorrect Email or Password", 400))
       }
     
-      if (!password) return next(new ErrorHandler("Please Enter Password", 400));
+      if (!password) return next(new ErrorHandler("Please Enter Password", 400))
 
       if (!isMatched) {
-        return next(new ErrorHandler("Incorrect Email or Password", 400));
+        return next(new ErrorHandler("Incorrect Email or Password", 400))
       }
+      sendToken(user, res, `Welcome Back, ${user.name}`, 200)
 
-    res.status(200).json({
-        success: true,
-        message: `Welcome back, ${user.name}`,
-    })
 })
 
-export const signup = async(req,res,next)=>{
+export const signup = asyncError(async (req, res, next) => {
 
     const { name, email, password, address, city, country, pinCode } = req.body
 
+    let user = await User.findOne({ email })
 
-    await User.create({
+    if (user) return next(new ErrorHandler("User Already Exist", 400))
+
+     user = await User.create({
         name, email, password, address, city, country, pinCode,
     })
-    res
-    .status(200)
-    .cookie("token", token,{
-      expires: new Date(Date.now()+15*24*60*1000),
-    })
-    .json({
+    sendToken(user, res, `Registered Successfully`, 201)
+})
+
+export const getMyProfile = asyncError(async (req, res, next) => {
+    const user = await User.findById(req.user._id)
+  
+    res.status(200).json({
       success: true,
-      message: `Welcome Back, ${user.name}`,
-    });
-}
+      user,
+    })
+  })
 
