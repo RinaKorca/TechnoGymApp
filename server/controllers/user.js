@@ -1,7 +1,10 @@
 import { asyncError } from "../middlewares/error.js"
 import { User } from "../models/user.js"
 import ErrorHandler from "../utils/error.js"
-import { cookieOptions, sendToken } from "../utils/features.js"
+import { cookieOptions, getDataUri, sendToken } from "../utils/features.js"
+import cloudinary from "cloudinary"
+
+//LOGINi
   
  export const login = asyncError(async (req,res,next)=>{
 
@@ -25,6 +28,8 @@ import { cookieOptions, sendToken } from "../utils/features.js"
 
 })
 
+//SIGNUPi
+
 export const signup = asyncError(async (req, res, next) => {
 
     const { name, email, password, address, city, country, pinCode } = req.body
@@ -33,11 +38,35 @@ export const signup = asyncError(async (req, res, next) => {
 
     if (user) return next(new ErrorHandler("User Already Exist", 400))
 
+  
+
+
+    let avatar = undefined
+
+    if (req.file) {
+      const file = getDataUri(req.file)
+      const myCloud = await cloudinary.v2.uploader.upload(file.content)
+      avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      }
+    }
+
      user = await User.create({
-        name, email, password, address, city, country, pinCode,
+         avatar,
+         name,
+         email, 
+         password, 
+         address, 
+         city, 
+         country, 
+         pinCode,
     })
     sendToken(user, res, `Registered Successfully`, 201)
 })
+
+
+//LOGOUTi
 
 export const logOut = asyncError(async (req, res, next) => {
     res
@@ -52,6 +81,9 @@ export const logOut = asyncError(async (req, res, next) => {
       });
   })
 
+
+  //GETPROFILIN
+
 export const getMyProfile = asyncError(async (req, res, next) => {
     const user = await User.findById(req.user._id)
   
@@ -60,6 +92,10 @@ export const getMyProfile = asyncError(async (req, res, next) => {
       user,
     })
   })
+
+
+
+  //UPDATEPROFILIN
 
 
   export const  updateProfile = asyncError(async (req, res, next) => {
@@ -84,6 +120,8 @@ export const getMyProfile = asyncError(async (req, res, next) => {
   })
 
 
+  //CHANGEPASSWORD
+
   export const  changePassword = asyncError(async (req, res, next) => {
     const user = await User.findById(req.user._id).select("+password")
 
@@ -106,3 +144,26 @@ export const getMyProfile = asyncError(async (req, res, next) => {
         message: "Password Changed Successully",
     })
   })
+
+  //UPDATEFOTON
+
+  export const updatePic = asyncError(async (req, res, next) => {
+    const user = await User.findById(req.user._id);
+  
+    const file = getDataUri(req.file);
+  
+    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+  
+    const myCloud = await cloudinary.v2.uploader.upload(file.content);
+    user.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  
+    await user.save();
+  
+    res.status(200).json({
+      success: true,
+      message: "Avatar Updated Successfully",
+    });
+  });
