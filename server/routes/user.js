@@ -1,5 +1,5 @@
 import express from "express"
-import { getMyProfile, login, signup } from "../controllers/user.js"
+import { getMyProfile, logOut, login, signup } from "../controllers/user.js"
 import { isAuthenticated } from "../middlewares/auth.js"
 
 
@@ -9,7 +9,10 @@ router.post("/login", login)
 
 router.post("/new", signup)
 
-router.post("/me",isAuthenticated, getMyProfile)
+router.get("/me",isAuthenticated, getMyProfile)
+
+router.get("/logout",isAuthenticated, logOut)
+
 
 
 export default router
