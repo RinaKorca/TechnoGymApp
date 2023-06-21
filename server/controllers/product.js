@@ -3,6 +3,7 @@ import { Product } from "../models/product.js";
 import ErrorHandler from "../utils/error.js";
 import { getDataUri } from "../utils/features.js";
 import cloudinary from "cloudinary";
+import { Category } from "../models/category.js"
 
 export const getAllProducts = asyncError(async (req, res, next) => {
     const { keyword, category } = req.query;

@@ -21,8 +21,6 @@ router.post("/new", isAuthenticated,isAdmin,  singleUpload, createProduct)
 router.route("/images/:id").post(isAuthenticated, isAdmin,singleUpload,addProductImage)
     .delete(isAuthenticated, isAdmin, deleteProductImage)
 
-router.post("/new", isAuthenticated, singleUpload, createProduct)
-
 
 router.post("/category", isAuthenticated, isAdmin, addCategory)
 
